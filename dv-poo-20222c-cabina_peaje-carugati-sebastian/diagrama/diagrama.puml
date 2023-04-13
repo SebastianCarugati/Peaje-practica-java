@@ -1,0 +1,95 @@
+@startuml
+
+title: Diagrama de cabina-peaje
+
+
+class Aubasa{
+	- estaciones: List <Estacion>
+	
+	+ addEstacion()
+	+ cabinasConEfectivo()
+	+ promedioDemora()
+	+ cobrar (Estacion, Cabina, Registro)
+	
+	
+	+ mostrar cabinasConEfectivo()
+	+ mostrarRegistros()
+}
+
+class Estacion {
+	- id: Integer
+	- descripcion: String
+	- cabinas: List<Cabina>
+	+ dameHoraActual()
+	+ addCabina(medioPago)
+	+ cabinasConEfectivo()
+	+ promedioDemora()
+	+ cobrar (Cabina, Registro)
+}
+
+class Cabina {
+	- id: Integer
+	- medioPago: MedioPago
+	- registros: List<Registro>
+	+ addRegistro(Registro)
+	+ cobrar(Vehiculo)
+	+ diasDeMora()
+	+ mostrarRegistros()
+}
+
+class Registro {
+	- horaActual: Integer
+	- vehiculo: Vehiculo
+}
+
+abstract class MedioPago {
+	- descripcion: String;
+	- diasDemora: Integer
+	+ {abstract} getDescuento() : Double
+}
+
+class Sube {
+	- diaDemora
+	+ getDescuento()
+}
+
+class TelePase {
+	- diaDemora
+	+ getDescuento()
+}
+
+class Efectivo {
+	- diaDemora
+	+ getDescuento()
+}
+
+class Vehiculo {
+	- patente: String
+	- categoria: TipoVehiculo
+}
+
+enum TipoVehiculo {
+	- precio: Double
+	+ AUTO [120]
+	+ MOTO [80]
+	+ CAMION [300]
+	- TipoVehiculo(precio)
+	+ getPrecio()
+}
+
+Aubasa -- Estacion
+Estacion -- Cabina
+Cabina -- MedioPago
+Registro -- Cabina
+Registro -- Vehiculo
+Vehiculo -- TipoVehiculo
+MedioPago <|-- Sube
+MedioPago <|-- TelePase
+MedioPago <|-- Efectivo
+
+
+
+
+
+
+@enduml
